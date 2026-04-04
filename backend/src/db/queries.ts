@@ -41,18 +41,17 @@ export const getAllProducts = async () => {
 
 
 export const getProductById = async (id: string) => {
-   return  db.query.products.findFirst({where: eq(products.id, id),
+  return db.query.products.findFirst({
+    where: eq(products.id, id),
     with: {
-        user: true,
-        comments: {
-            with: {user:true},
-            orderBy: (comments, {desc} ) => desc(comments.createdAt)
-        }
-    }
-   })
-
-}
-
+      user: true,
+      comments: {
+        with: { user: true },
+        orderBy: (comments, { desc }) => [desc(comments.createdAt)],
+      },
+    },
+  });
+};
 export const getProductByUserId = async (userId: string ) => {
 
     return db.query.products.findMany({
